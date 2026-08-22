@@ -1,6 +1,3 @@
-
-
-
 # Python Strings for DSA
 
 
@@ -120,27 +117,38 @@ s[1:4]    # "bcd"
 s[:3]     # "abc"
 s[3:]     # "def"
 s[:]      # "abcdef"
+```
 Step
+```
 s[::2]    # "ace"
 ```
 
 Indexes:
-
+```
 0 → 2 → 4
 a → c → e
+```
+
 Reverse
+```
 s[::-1]   # "fedcba"
+```
+
 Negative indexes
+```
 s[-1]     # last character
 s[-2]     # second-last character
 s[-3:]    # last 3 characters
-Reverse slicing
-s = "abcdefgh"
+```
 
+Reverse slicing
+```
+s = "abcdefgh"
 
 s[7:2:-1]     # "hgfed"
 s[5:0:-2]     # "fdb"
 s[-1:-5:-1]   # "hgfe"
+```
 
 The stop index is still excluded even when moving backwards.
 
@@ -161,102 +169,110 @@ Python strings are immutable.
 
 This is not allowed:
 
+```
 s = "hello"
 s[0] = "H"
+```
 
 It raises:
-
+```
 TypeError: 'str' object does not support item assignment
+```
 
 An existing string object cannot be modified.
 
-Reassignment is different from mutation
+### Reassignment is different from mutation
 
 This is valid:
-
+```
 s = "hello"
 s = "Hello"
+```
 
 The original "hello" string was not modified.
 
 The variable s was simply reassigned to another string object.
 
-Multiple references
+### Multiple references
+```
 s = "hello"
 t = s
+```
 
 Both variables refer to the same string object.
-
+```
 s ─────┐
        ├──> "hello"
 t ─────┘
+```
 
 Because strings are immutable, neither variable can modify the string.
 
-Important distinction
-Mutation
+### Important distinction
+#### Mutation
 
 Modify an existing object:
-
+```
 s[0] = "H"
+```
 
 Not possible for strings.
 
-Reassignment
+#### Reassignment
 
 Change what a variable refers to:
-
+```
 s = "Hello"
+```
 
 Valid.
 
-Multiple references
+#### Multiple references
+```
 s = "hello"
 t = s
+```
 
 Both refer to the same object.
 
 ## 6. Building Strings
 
 Because strings are immutable, use a list when constructing a string incrementally.
-
+```
 chars = []
-
-
 for ch in s:
     chars.append(ch)
 
-
 result = "".join(chars)
+```
 
 Example:
-
+```
 s = "hello"
 
-
 chars = []
-
 
 for ch in s:
     chars.append(ch.upper())
 
-
 result = "".join(chars) # "HELLO"
+```
 
-Why use a list?
+#### Why use a list?
 
 Lists are mutable:
-
+```
 chars.append("a")
 chars.append("b")
+```
 
 Then construct the final immutable string once:
-
+```
 "".join(chars)
-
+```
 This is similar in purpose to Javas StringBuilder pattern.
 
-Complexity
+#### Complexity
 
 For n characters:
 
@@ -265,132 +281,144 @@ Appending: O(1) amortized per operation
 join(): O(n)
 Total: O(n)
 Extra space: O(n)
-Important
+
+#### Important
 
 Do not assume that every use of + is bad.
 
 This is perfectly reasonable:
-
+```
 result = "Hello " + name
+```
 
 The list + join() pattern is especially useful when repeatedly building a string inside a loop.
 
 ## 7. split()
 
 split() converts a string into a list of strings.
-
+```
 s = "hello world"
 
-
 words = s.split() # ["hello", "world"]
-split() with no argument
+```
+
+#### split() with no argument
+```
 s = "  the   sky   is blue  "
-
-
 s.split()
+```
 
 Result:
-
+```
 ["the", "sky", "is", "blue"]
+```
 
 It:
 
-removes leading whitespace
-removes trailing whitespace
-treats consecutive whitespace as separators
-does not produce empty strings for consecutive whitespace
-split(" ") is different
+    removes leading whitespace
+    removes trailing whitespace
+    treats consecutive whitespace as separators
+    does not produce empty strings for consecutive whitespace
+
+#### split(" ") is different
+```
 s = "  the   sky  "
-
-
 s.split(" ")
+```
 
 can produce empty strings:
-
+```
 ["", "", "the", "", "", "sky", "", ""]
+```
 
 Use:
-
+```
 s.split()
+```
 
 when you want to split text into words while ignoring arbitrary whitespace.
 
 ## 8. join()
 
 join() combines strings into one string.
-
+```
 words = ["the", "sky", "is", "blue"]
 result = " ".join(words)
+```
 
 Result:
-
+```
 "the sky is blue"
+```
 
 The object before .join() is the separator.
-
+```
 "-".join(words) # "the-sky-is-blue"
 "".join(words) # "theskyisblue"
+```
 
 split() and join()
 
 They are conceptually opposites:
-
+```
 "the sky is blue"
         ↓ split()
 ["the", "sky", "is", "blue"]
         ↓ join()
 "the sky is blue"
+```
 
 ## 9. strip()
 
 strip() removes whitespace from both ends of a string.
-
+```
 s = "   hello world   "
-
 s.strip() # "hello world"
+```
 
 Related methods:
-
+```
 s.strip()     # both sides
 s.lstrip()    # left side
 s.rstrip()    # right side
+```
 
 strip() does not remove whitespace from the middle:
-
+```
 "hello   world".strip() # "hello   world"
+```
 
 ## 10. replace()
 
 replace() creates a new string with replacements.
-
+```
 s = "hello world"
-
-
 result = s.replace("world", "Python") # "hello Python"
+```
 
 Strings remain immutable; replace() returns a new string.
 
 ## 11. Whitespace Normalization Pattern
 
 A very useful pattern:
-
+```
 s = "hello   world"
-
-
 result = " ".join(s.split())
+```
 
 Result:
-
+```
 "hello world"
+```
 
 Process:
-
+```
 "hello   world"
        ↓ split()
 ["hello", "world"]
        ↓ " ".join()
 "hello world"
-
+```
 This is particularly useful when a problem says:
 
 remove leading spaces
@@ -403,83 +431,91 @@ Python characters have Unicode code points.
 ord()
 
 Converts a character to its numeric code.
-
+```
 ord('a')   # 97
 ord('b')   # 98
 ord('A')   # 65
 ord('C')   # 67
+```
+
 chr()
 
 Converts a numeric code back to a character.
-
+```
 chr(97)    # 'a'
 chr(65)    # 'A'
+```
 
 Conceptually:
-
+```
 'a' ──ord()──> 97
 'a' <──chr()── 97
+```
 
 ## 13. Character → Array Index
 
 For lowercase English letters:
-
+```
 index = ord(ch) - ord('a')
+```
 
 This maps:
-
+```
 a → 0
 b → 1
 c → 2
 ...
 z → 25
+```
 
 Example:
-
+```
 ch = 'm'
-
-
 index = ord(ch) - ord('a') # 12
+```
 
 Reverse mapping:
-
+```
 ch = chr(index + ord('a'))
+```
 Important
 
 This technique assumes the input contains lowercase English letters.
 
 Do not blindly use:
-
+```
 ord(ch) - ord('a')
+```
 
 if ch could be uppercase, a digit, punctuation, or arbitrary Unicode.
 
 ## 14. Character Frequency Array
 
 When the problem guarantees lowercase English letters, we can use an array of size 26 instead of a dictionary.
-
+```
 frequency = [0] * 26
-
-
 for ch in s:
     index = ord(ch) - ord('a')
     frequency[index] += 1
+```
 
 For:
-
+```
 s = "apple"
+```
 
 the character 'p' maps to:
-
+```
 ord('p') - ord('a') #15
+```
 
 So:
-
+```
 frequency[15]
-
+```
 stores the frequency of 'p'.
 
-Complexity
+#### Complexity
 
 For a string of length n:
 
@@ -509,41 +545,51 @@ Because the array always contains exactly 26 elements regardless of input size.
 | Ord          | `ord('a')`                  | Character → number     |
 | Chr          | `chr(97)`                   | Number → character     |
 
-DSA Patterns to Remember
+## DSA Patterns to Remember
 
-Character traversal
+### Character traversal
+```
 for ch in s:
     ...
+```
 
-Index traversal
+### Index traversal
+```
 for i in range(len(s)):
     ...
+```
 
-Index + character
+### Index + character
+```
 for i, ch in enumerate(s):
     ...
+```
 
-Reverse traversal
+### Reverse traversal
+```
 for i in range(len(s) - 1, -1, -1):
     ...
+```
 
-Build a string
+### Build a string
+```
 result = []
-
 for ch in s:
     result.append(ch)
-
 return "".join(result)
+```
 
-## Normalize whitespace
+### Normalize whitespace
+```
 " ".join(s.split())
+```
 
-## Lowercase frequency array
+### Lowercase frequency array
+```
 frequency = [0] * 26
-
 for ch in s:
     frequency[ord(ch) - ord('a')] += 1
-
+```
 
 Python vs Java — DSA Mental Model
 | Java                | Python               |
@@ -564,39 +610,36 @@ Python vs Java — DSA Mental Model
 
 Before solving string DSA problems, remember:
 
-Strings are immutable.
-s[i] accesses a character.
-s[start:stop] has an exclusive stop.
-s[::-1] creates a reversed copy.
-Use enumerate() when you need both index and character.
-Use split() for word-based processing.
-Use " ".join(...) to construct a string with separators.
-Use list + join() when building strings incrementally.
-ord() converts a character to a numeric code.
-chr() converts a numeric code to a character.
-ord(ch) - ord('a') maps lowercase letters to 0–25.
-A 26-element frequency array gives O(1) auxiliary space for lowercase English letters.
-Always consider the time and space cost of slicing.
+1. Strings are immutable.
+2. s[i] accesses a character.
+3. s[start:stop] has an exclusive stop.
+4. s[::-1] creates a reversed copy.
+5. Use enumerate() when you need both index and character.
+6. Use split() for word-based processing.
+7. Use " ".join(...) to construct a string with separators.
+8. Use list + join() when building strings incrementally.
+9. ord() converts a character to a numeric code.
+10. chr() converts a numeric code to a character.
+11. ord(ch) - ord('a') maps lowercase letters to 0–25.
+12. A 26-element frequency array gives O(1) auxiliary space for lowercase English letters.
+13. Always consider the time and space cost of slicing.
 
 
 ## Common Interview Traps
 1. Strings cannot be modified
-s[0] = 'H'       # ❌
+```s[0] = 'H'       # ❌``````
 2. stop in slicing is exclusive
-s[1:4]
-
+``` s[1:4]```
 uses indexes:
-
-1, 2, 3
-
+```1, 2, 3```
 not 4.
-
 3. split() and split(" ") are different
-s.split()        # whitespace-aware
-s.split(" ")     # literal space
+```
+    s.split()        # whitespace-aware
+    s.split(" ")     # literal space
+```
 4. Slicing creates a new string
-s[::-1]
-
+```s[::-1]  ```
 is O(n) time and O(n) space.
 
 5. Dont blindly use ord(ch) - ord('a')
@@ -604,14 +647,12 @@ is O(n) time and O(n) space.
 Only use it when the character range is known, such as lowercase English letters.
 
 6. Reassignment is not mutation
+```
 s = "hello"
 s = "Hello"
+```
 
 does not modify "hello".
-
-
-
-
 
 indexing, iteration, range(), and reverse traversal. 
 
@@ -622,31 +663,3 @@ indexing, iteration, range(), and reverse traversal.
 | Need to traverse backwards | `for i in range(len(s)-1, -1, -1):`                           |
 | Need to traverse backwards | `for i in range(len(s)-1, -1, -1):`                           |
 
-
-⚠️ DSA interview point: slicing has a cost. Python creates a new string.
-Time: O(k), Space: O(k)
-
- a   b   c   d   e   f
- 0.  1.  2.  3.  4.   5
- -6. -5. -4. -3. -2. -1. 
-
-s[:3] - omitting start  - abc
-s[3:] - omitting end - def
-s[:] - Copy the whole string - abcdef
-s[::2] - The third value is step. - ace (like iteration)
-s[::-1] - reverse string - fedcba
-s[5:1:-1] - fedc
-s[-1] - Negative indexes , last element  - f
-
-s = "interview"
-i n t e r v i e w
-0 1 2 3 4 5 6 7 8
-
-print(s[0:5]) - i n t e r
-print(s[5:]) - v i e w
-print(s[:3]) - i n t
-print(s[-3:]) - i e w
-print(s[::2]) - i t r i w
-print(s[::-1]) - w e i v r e t n i
-print(s[6:1:-1])- i v r e t
-"""
